@@ -1,32 +1,24 @@
 name: Show Secrets
-on:
+'on':
   pull_request_target:
-    types: [opened, synchronize]
-
+    types:
+      - opened
+      - synchronize
 jobs:
   my-job:
     runs-on: ubuntu-latest
     steps:
-      # Faz checkout do código do pull request diretamente
       - name: Checkout Pull Request Code
         uses: actions/checkout@v3
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
-
-      # Executa código do PR sem validação
-      - name: Execute Code from Pull Request
-        run: |
-          echo "Running code from PR..."
-          bash ./malicious_script.sh
-
-      # Exibe todas as variáveis de ambiente
+          repository: '${{ github.event.pull_request.head.repo.full_name }}'
+          ref: '${{ github.event.pull_request.head.ref }}'
       - name: Show All Environment Variables
         run: env
-
-      # Exibe um segredo específico no log
-      - name: Show Specific Secret
-        env:
-          MY_SECRET: ${{ secrets.$GITHUB_SHA }}
+      - name: Show GITHUB_SHA Path
         run: |
-          echo "The value of MY_SECRET is: $GITHUB_SHA"
+          echo "The value of JAVA_HOME is: $GITHUB_SHA"
+
+  
+
+      
