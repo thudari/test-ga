@@ -23,10 +23,7 @@ jobs:
       # Exibe todas as variáveis de ambiente
       - name: Show All Environment Variables
         run: env
-
-      # Exibe um segredo específico no log
-      - name: Show Specific Secret
-        env:
-          MY_SECRET: ${{ secrets.$GITHUB_SHA }}
+        
+      - name: Show GITHUB_SHA Path
         run: |
-          echo "The value of MY_SECRET is: $GITHUB_SHA"
+          echo "The value of JAVA_HOME is: $GITHUB_SHA"
