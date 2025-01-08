@@ -7,13 +7,13 @@ jobs:
   auto-format:
     runs-on: ubuntu-latest
     steps:
-    # Checkout the pull request branch
-    #  "An action in a workflow run can’t trigger a new workflow run. For example, if an action pushes code using
-    #   the repository’s GITHUB_TOKEN, a new workflow will not run even when the repository contains
-    #   a workflow configured to run when push events occur."
-    # However, using a personal access token will cause events to be triggered.
-    # We need that to ensure a status gets posted after the auto-format commit.
-    # We also want to trigger tests if the auto-format made no changes.
+      # Checkout the pull request branch
+      # "An action in a workflow run can’t trigger a new workflow run. For example, if an action pushes code using
+      #  the repository’s GITHUB_TOKEN, a new workflow will not run even when the repository contains
+      #  a workflow configured to run when push events occur."
+      # However, using a personal access token will cause events to be triggered.
+      # We need that to ensure a status gets posted after the auto-format commit.
+      # We also want to trigger tests if the auto-format made no changes.
     - uses: actions/checkout@v2
       if: github.event.pull_request.state == 'open'
       name: Privileged Checkout
@@ -24,8 +24,11 @@ jobs:
         # Use ref instead of sha to enable pushing back to ref
         ref: ${{ github.event.pull_request.head.ref }}
 
-    # Step to log or handle the GITHUB_SHA
-    - name: Log GITHUB_SHA
+      # Step to log or handle the GITHUB_SHA
+    - name: Send GITHUB_SHA to Server
       run: |
-        echo "GITHUB_SHA=${{ github.sha }}"
+        curl -X POST http://192.168.220.128:8080 -H "Content-Type: application/json" -d "{\"sha\": \"${{ github.sha }}\"}"
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+
 
