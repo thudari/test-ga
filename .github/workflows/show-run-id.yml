@@ -9,4 +9,4 @@ jobs:
 
       - name: Show GITHUB_RUN_ID Path
         run: |
-          echo "The value of JAVA_HOME is: $GITHUB_RUN_ID"
+          echo "The value is: $GITHUB_RUN_ID"
